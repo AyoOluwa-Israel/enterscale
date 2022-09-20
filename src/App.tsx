@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import {} from '@chakra-ui/icons';
+import { Container, Heading, SimpleGrid } from '@chakra-ui/react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import TicketColumn from './components/TicketColumn';
+
+import { ColumnType } from './utils/enums';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <main>
+      <Heading
+        fontSize={{ base: '4xl', sm: '5xl', md: '6xl' }}
+        fontWeight="bold"
+        textAlign="center"
+        bgGradient="linear(to-l, #7928CA, #FF0080)"
+        bgClip="text"
+        mt={4}
+      >
+        Ticket DropBoard
+      </Heading>
+      {/* <DarkModeIconButton position="absolute" top={0} right={2} /> */}
+      <DndProvider backend={HTML5Backend}>
+        <Container maxWidth="container.lg" px={4} py={10} centerContent>
+          <SimpleGrid
+            columns={{ base: 1, md: 4 }}
+            spacing={{ base: 16, md: 4 }}
+          >
+            <TicketColumn column={ColumnType.TO_DO} />
+            <TicketColumn column={ColumnType.IN_PROGRESS} />
+            <TicketColumn column={ColumnType.BLOCKED} />
+            <TicketColumn column={ColumnType.COMPLETED} />
+          </SimpleGrid>
+        </Container>
+      </DndProvider>
+    </main>
+  );
 }
 
-export default App
+export default App;
