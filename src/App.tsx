@@ -15,7 +15,7 @@ function App() {
         textAlign="center"
         bgGradient="linear(to-l, #090909, #090909)"
         bgClip="text"
-        mt={4}
+        pt={4}
       >
         Ticket DropBoard
       </Heading>
