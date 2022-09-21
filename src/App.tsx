@@ -10,10 +10,10 @@ function App() {
   return (
     <main>
       <Heading
-        fontSize={{ base: '4xl', sm: '5xl', md: '6xl' }}
+        fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
         fontWeight="bold"
         textAlign="center"
-        bgGradient="linear(to-l, #7928CA, #FF0080)"
+        bgGradient="linear(to-l, #090909, #090909)"
         bgClip="text"
         mt={4}
       >

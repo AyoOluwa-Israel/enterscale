@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import { useDrag, useDrop, XYCoord } from 'react-dnd';
 import { ItemType } from '../utils/enums';
-import { DragItem, TaskModel } from '../utils/models';
+import { DragItem, TicketModel } from '../utils/models';
 
 export function useDragAndDrop<T extends HTMLElement>(
-  { task, index }: { task: TaskModel; index: number },
+  { ticket, index }: { ticket: TicketModel; index: number },
   handleDropHover: (i: number, j: number) => void,
 ) {
   const ref = useRef<T>(null);
@@ -14,22 +14,22 @@ export function useDragAndDrop<T extends HTMLElement>(
     void,
     { isDragging: boolean }
   >({
-    item: { from: task.column, id: task.id, index },
-    type: ItemType.TASK,
+    item: { from: ticket.column, id: ticket.id, index },
+    type: ItemType.TICKET,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
   const [_, drop] = useDrop<DragItem, void, unknown>({
-    accept: ItemType.TASK,
+    accept: ItemType.TICKET,
     hover: (item, monitor) => {
       if (!ref.current) {
         return;
       }
 
       // the tasks are not on the same column
-      if (item.from !== task.column) {
+      if (item.from !== ticket.column) {
         return;
       }
 

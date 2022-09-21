@@ -3,115 +3,115 @@ import { v4 as uuidv4 } from 'uuid';
 import { ColumnType } from '../utils/enums';
 import { pickRandomColor, swap } from '../utils/helpers';
 import { debug } from '../utils/logging';
-import { TaskModel } from '../utils/models';
+import { TicketModel } from '../utils/models';
 import useTicketCollection from './useTicketCollection';
 
 const MAX_TASK_PER_COLUMN = 100;
 
 function useColumnTasks(column: ColumnType) {
-  const [tasks, setTasks] = useTicketCollection();
+  const [tickets, setTickets] = useTicketCollection();
 
-  const columnTasks = tasks[column];
+  const columnTickets = tickets[column];
 
-  const addEmptyTask = useCallback(() => {
-    debug(`Adding new empty task to ${column} column`);
-    setTasks((allTasks) => {
-      const columnTasks = allTasks[column];
+  const addEmptyTicket = useCallback(() => {
+    debug(`Adding new empty ticket to ${column} column`);
+    setTickets((allTickets) => {
+      const columnTickets = allTickets[column];
 
-      if (columnTasks.length > MAX_TASK_PER_COLUMN) {
-        debug('Too many task!');
-        return allTasks;
+      if (columnTickets.length > MAX_TASK_PER_COLUMN) {
+        debug('Too many ticket!');
+        return allTickets;
       }
 
-      const newColumnTask: TaskModel = {
+      const newColumnTicket: TicketModel = {
         id: uuidv4(),
-        title: `New ${column} task`,
+        title: `New ${column} ticket`,
         color: pickRandomColor('.300'),
         column,
       };
 
       return {
-        ...allTasks,
-        [column]: [newColumnTask, ...columnTasks],
+        ...allTickets,
+        [column]: [newColumnTicket, ...columnTickets],
       };
     });
-  }, [column, setTasks]);
+  }, [column, setTickets]);
 
-  const deleteTask = useCallback(
-    (id: TaskModel['id']) => {
-      debug(`Removing task ${id}..`);
-      setTasks((allTasks) => {
-        const columnTasks = allTasks[column];
+  const deleteTicket = useCallback(
+    (id: TicketModel['id']) => {
+      debug(`Removing ticket ${id}..`);
+      setTickets((allTickets) => {
+        const columnTickets = allTickets[column];
         return {
-          ...allTasks,
-          [column]: columnTasks.filter((task) => task.id !== id),
+          ...allTickets,
+          [column]: columnTickets.filter((ticket) => ticket.id !== id),
         };
       });
     },
-    [column, setTasks],
+    [column, setTickets],
   );
 
-  const updateTask = useCallback(
-    (id: TaskModel['id'], updatedTask: Omit<Partial<TaskModel>, 'id'>) => {
-      debug(`Updating task ${id} with ${JSON.stringify(updateTask)}`);
-      setTasks((allTasks) => {
-        const columnTasks = allTasks[column];
+  const updateTicket = useCallback(
+    (id: TicketModel['id'], updatedTicket: Omit<Partial<TicketModel>, 'id'>) => {
+      debug(`Updating ticket ${id} with ${JSON.stringify(updateTicket)}`);
+      setTickets((allTickets) => {
+        const columnTickets = allTickets[column];
         return {
-          ...allTasks,
-          [column]: columnTasks.map((task) =>
-            task.id === id ? { ...task, ...updatedTask } : task,
+          ...allTickets,
+          [column]: columnTickets.map((ticket) =>
+          ticket.id === id ? { ...ticket, ...updatedTicket } : ticket,
           ),
         };
       });
     },
-    [column, setTasks],
+    [column, setTickets],
   );
 
-  const dropTaskFrom = useCallback(
-    (from: ColumnType, id: TaskModel['id']) => {
-      setTasks((allTasks) => {
-        const fromColumnTasks = allTasks[from];
-        const toColumnTasks = allTasks[column];
-        const movingTask = fromColumnTasks.find((task) => task.id === id);
+  const dropTicketFrom = useCallback(
+    (from: ColumnType, id: TicketModel['id']) => {
+      setTickets((allTickets) => {
+        const fromColumnTickets = allTickets[from];
+        const toColumnTickets = allTickets[column];
+        const movingTicket = fromColumnTickets.find((ticket) => ticket.id === id);
 
-        console.log(`Moving task ${movingTask?.id} from ${from} to ${column}`);
+        console.log(`Moving ticket ${movingTicket?.id} from ${from} to ${column}`);
 
-        if (!movingTask) {
-          return allTasks;
+        if (!movingTicket) {
+          return allTickets;
         }
 
         // remove the task from the original column and copy it within the destination column
         return {
-          ...allTasks,
-          [from]: fromColumnTasks.filter((task) => task.id !== id),
-          [column]: [{ ...movingTask, column }, ...toColumnTasks],
+          ...allTickets,
+          [from]: fromColumnTickets.filter((ticket) => ticket.id !== id),
+          [column]: [{ ...movingTicket, column }, ...toColumnTickets],
         };
       });
     },
-    [column, setTasks],
+    [column, setTickets],
   );
 
-  const swapTasks = useCallback(
+  const swapTickets = useCallback(
     (i: number, j: number) => {
       debug(`Swapping task ${i} with ${j} in ${column} column`);
-      setTasks((allTasks) => {
-        const columnTasks = allTasks[column];
+      setTickets((allTickets) => {
+        const columnTickets = allTickets[column];
         return {
-          ...allTasks,
-          [column]: swap(columnTasks, i, j),
+          ...allTickets,
+          [column]: swap(columnTickets, i, j),
         };
       });
     },
-    [column, setTasks],
+    [column, setTickets],
   );
 
   return {
-    tasks: columnTasks,
-    addEmptyTask,
-    updateTask,
-    dropTaskFrom,
-    deleteTask,
-    swapTasks,
+    tickets: columnTickets,
+    addEmptyTicket,
+    updateTicket,
+    dropTicketFrom,
+    deleteTicket,
+    swapTickets,
   };
 }
 

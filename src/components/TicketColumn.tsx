@@ -21,24 +21,24 @@ const ColumnColorScheme: Record<ColumnType, string> = {
 
 function TicketColumn({ column }: { column: ColumnType }) {
   const {
-    tasks,
-    addEmptyTask,
-    deleteTask,
-    dropTaskFrom,
-    swapTasks,
-    updateTask,
+    tickets,
+    addEmptyTicket,
+    deleteTicket,
+    dropTicketFrom,
+    swapTickets,
+    updateTicket,
   } = useColumnTicket(column);
 
-  const { dropRef, isOver } = useColumnDrop(column, dropTaskFrom);
+  const { dropRef, isOver } = useColumnDrop(column, dropTicketFrom);
 
-  const ColumnTasks = tasks.map((task, index) => (
+  const columnTickets = tickets.map((ticket, index) => (
     <Ticket
-      key={task.id}
-      task={task}
+      key={ticket.id}
+      ticket={ticket}
       index={index}
-      onDropHover={swapTasks}
-      onUpdate={updateTask}
-      onDelete={deleteTask}
+      onDropHover={swapTickets}
+      onUpdate={updateTicket}
+      onDelete={deleteTicket}
     />
   ));
 
@@ -62,9 +62,9 @@ function TicketColumn({ column }: { column: ColumnType }) {
         _hover={{ bgColor: useColorModeValue('gray.200', 'gray.600') }}
         py={2}
         variant="solid"
-        onClick={addEmptyTask}
+        onClick={addEmptyTicket}
         colorScheme="black"
-        aria-label="add-task"
+        aria-label="add-ticket"
         icon={<AddIcon />}
       />
       <Stack
@@ -80,7 +80,7 @@ function TicketColumn({ column }: { column: ColumnType }) {
         overflow="auto"
         opacity={isOver ? 0.85 : 1}
       >
-        {ColumnTasks}
+        {columnTickets}
       </Stack>
     </Box>
   );

@@ -2,37 +2,37 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { Box, IconButton, ScaleFade } from '@chakra-ui/react';
 import _ from 'lodash';
 import { memo } from 'react';
-import { useDragAndDrop } from '../hooks/useDragandDrop';
-import { TaskModel } from '../utils/models';
+import { useDragAndDrop } from '../hooks/useDragAndDrop';
+import { TicketModel } from '../utils/models';
 import { AutoResizeTextarea } from './AutoResizeTextArea';
 
 type TaskProps = {
   index: number;
-  task: TaskModel;
-  onUpdate: (id: TaskModel['id'], updatedTask: TaskModel) => void;
-  onDelete: (id: TaskModel['id']) => void;
+  ticket: TicketModel;
+  onUpdate: (id: TicketModel['id'], updatedTask: TicketModel) => void;
+  onDelete: (id: TicketModel['id']) => void;
   onDropHover: (i: number, j: number) => void;
 };
 
-function Task({
+function Ticket({
   index,
-  task,
+  ticket,
   onUpdate: handleUpdate,
   onDropHover: handleDropHover,
   onDelete: handleDelete,
 }: TaskProps) {
   const { ref, isDragging } = useDragAndDrop<HTMLDivElement>(
-    { task, index: index },
+    { ticket, index: index },
     handleDropHover,
   );
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newTitle = e.target.value;
-    handleUpdate(task.id, { ...task, title: newTitle });
+    handleUpdate(ticket.id, { ...ticket, title: newTitle });
   };
 
   const handleDeleteClick = () => {
-    handleDelete(task.id);
+    handleDelete(ticket.id);
   };
 
   return (
@@ -52,7 +52,7 @@ function Task({
         cursor="grab"
         fontWeight="bold"
         userSelect="none"
-        bgColor={task.color}
+        bgColor={ticket.color}
         opacity={isDragging ? 0.5 : 1}
       >
         <IconButton
@@ -60,7 +60,7 @@ function Task({
           top={0}
           right={0}
           zIndex={100}
-          aria-label="delete-task"
+          aria-label="delete-ticket"
           size="md"
           colorScheme="solid"
           color={'gray.700'}
@@ -72,7 +72,7 @@ function Task({
           onClick={handleDeleteClick}
         />
         <AutoResizeTextarea
-          value={task.title}
+          value={ticket.title}
           fontWeight="semibold"
           cursor="inherit"
           border="none"
@@ -88,9 +88,9 @@ function Task({
     </ScaleFade>
   );
 }
-export default memo(Task, (prev, next) => {
+export default memo(Ticket, (prev, next) => {
   if (
-    _.isEqual(prev.task, next.task) &&
+    _.isEqual(prev.ticket, next.ticket) &&
     _.isEqual(prev.index, next.index) &&
     prev.onDelete === next.onDelete &&
     prev.onDropHover === next.onDropHover &&

@@ -1,13 +1,13 @@
 import { useDrop } from 'react-dnd';
 import { ColumnType, ItemType } from '../utils/enums';
-import { DragItem, TaskModel } from '../utils/models';
+import { DragItem, TicketModel } from '../utils/models';
 
 function useColumnDrop(
   column: ColumnType,
-  handleDrop: (fromColumn: ColumnType, taskId: TaskModel['id']) => void,
+  handleDrop: (fromColumn: ColumnType, ticketId: TicketModel['id']) => void,
 ) {
   const [{ isOver }, dropRef] = useDrop<DragItem, void, { isOver: boolean }>({
-    accept: ItemType.TASK,
+    accept: ItemType.TICKET,
     drop: (dragItem) => {
       if (!dragItem || dragItem.from === column) {
         return;
