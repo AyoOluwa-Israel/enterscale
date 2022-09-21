@@ -8,10 +8,10 @@ function useTicketCollection() {
   return useLocalStorage<{
     [key in ColumnType]: TicketModel[];
   }>('tickets', {
-    Todo: [
+    Pending: [
       {
         id: uuidv4(),
-        column: ColumnType.TO_DO,
+        column: ColumnType.PENDING,
         title: 'Ticket 1',
         color: 'blue.300',
       },
@@ -32,10 +32,10 @@ function useTicketCollection() {
         color: 'red.300',
       },
     ],
-    Completed: [
+    Resolved: [
       {
         id: uuidv4(),
-        column: ColumnType.COMPLETED,
+        column: ColumnType.RESOLVED,
         title: 'Ticket 4',
         color: 'green.300',
       },

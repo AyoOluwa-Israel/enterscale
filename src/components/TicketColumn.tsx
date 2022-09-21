@@ -13,10 +13,10 @@ import { ColumnType } from '../utils/enums';
 import Ticket from './Ticket';
 
 const ColumnColorScheme: Record<ColumnType, string> = {
-  Todo: 'gray',
+  Pending: 'gray',
   'In Progress': 'blue',
   Blocked: 'red',
-  Completed: 'green',
+  Resolved: 'green',
 };
 
 function TicketColumn({ column }: { column: ColumnType }) {
@@ -31,7 +31,7 @@ function TicketColumn({ column }: { column: ColumnType }) {
 
   const { dropRef, isOver } = useColumnDrop(column, dropTicketFrom);
 
-  const columnTickets = tickets.map((ticket, index) => (
+  const columnTickets = tickets?.map((ticket, index) => (
     <Ticket
       key={ticket.id}
       ticket={ticket}

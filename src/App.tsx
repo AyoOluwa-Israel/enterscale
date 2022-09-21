@@ -26,10 +26,10 @@ function App() {
             columns={{ base: 1, md: 4 }}
             spacing={{ base: 16, md: 4 }}
           >
-            <TicketColumn column={ColumnType.TO_DO} />
+            <TicketColumn column={ColumnType.PENDING} />
             <TicketColumn column={ColumnType.IN_PROGRESS} />
             <TicketColumn column={ColumnType.BLOCKED} />
-            <TicketColumn column={ColumnType.COMPLETED} />
+            <TicketColumn column={ColumnType.RESOLVED} />
           </SimpleGrid>
         </Container>
       </DndProvider>
